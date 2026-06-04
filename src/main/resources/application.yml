@@ -1,0 +1,36 @@
+# application.yml
+spring:
+  batch:
+    job:
+      enabled: true
+    step:
+      skip:
+        limit: 1000
+    repository:
+      isolation-level-for-create: SERIALIZABLE
+
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=YourDB;encrypt=true;trustServerCertificate=true
+    username: your_username
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+
+  scheduler:
+    enabled: true
+    task-execution:
+      scheduler-name: batchScheduler
+      cron: 0 0 2 * * ?  # Daily at 2 AM
+
+logging:
+  level:
+    org.springframework.batch.core: INFO
+    org.springframework.batch.core.launch: DEBUG
+    org.springframework.batch.core.job: DEBUG
+    org.springframework.batch.core.step: DEBUG
+    org.springframework.scheduling.support: DEBUG
+    org.springframework.jdbc.datasource: DEBUG
+    org.springframework.transaction: DEBUG
